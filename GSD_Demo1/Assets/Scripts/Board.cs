@@ -18,6 +18,10 @@ public class Board : MonoBehaviour
 
     public TetrisManager tM;
 
+    public float dropInterval = 0.5f;
+
+    float dropTime = 0.0f;
+
     Dictionary<Vector3Int, Piece> pieces = new Dictionary<Vector3Int, Piece>();
 
     int left
@@ -37,10 +41,26 @@ public class Board : MonoBehaviour
         get { return -boardSize.y / 2; }
     }
 
-
-    private void Start()
+    public void Update()
     {
-        SpawnPiece();
+        dropTime += Time.deltaTime;
+
+        if (dropTime >= dropInterval )
+        {
+            dropTime = 0.0f;
+
+            Clear(activePiece);
+
+            bool moveResult = activePiece.Move(Vector2Int.down);
+            Set(activePiece);
+
+            if (!moveResult)
+            {
+                activePiece.freeze = true;
+                CheckBoard();
+                SpawnPiece();
+            }
+        }
     }
 
     public void SpawnPiece()
@@ -49,7 +69,44 @@ public class Board : MonoBehaviour
         Tetronimo t = (Tetronimo)Random.Range(0, tetronimos.Length);
 
         activePiece.Initialize(this, t);
+
+        CheckEndGame();
+
         Set(activePiece);
+    }
+
+    void CheckEndGame()
+    {
+        if (!IsPositionValid(activePiece, activePiece.position))
+        {
+            tM.SetGameOver(true);
+        }
+    }
+
+    public void UpdateGameOver()
+    {
+        if (!tM.gameOver)
+        {
+            ResetBoard();
+        }
+    }
+
+    public void ResetBoard()
+    {
+        Piece[] foundPieces = FindObjectsByType<Piece>(FindObjectsSortMode.None);
+
+        foreach (Piece piece in foundPieces)
+        {
+            Destroy(piece.gameObject);
+        }
+
+        activePiece = null;
+
+        tilemap.ClearAllTiles();
+
+        pieces.Clear();
+
+        SpawnPiece();
     }
 
     void SetTile(Vector3Int cellPos, Piece piece)

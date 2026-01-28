@@ -12,7 +12,7 @@ public class Piece : MonoBehaviour
 
     int activeCellCount = -1;
 
-    bool freeze = false;
+    public bool freeze = false;
     public void Initialize(Board board, Tetronimo tetronimo)
     {
         this.board = board;
@@ -183,7 +183,7 @@ public class Piece : MonoBehaviour
         //board.SpawnPiece();
     }
 
-    bool Move(Vector2Int translation)
+    public bool Move(Vector2Int translation)
     {
         Vector2Int newPosition = position;
         newPosition += translation;
