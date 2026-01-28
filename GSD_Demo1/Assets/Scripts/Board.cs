@@ -43,6 +43,8 @@ public class Board : MonoBehaviour
 
     public void Update()
     {
+        if (tM.gameOver) return;
+    
         dropTime += Time.deltaTime;
 
         if (dropTime >= dropInterval )

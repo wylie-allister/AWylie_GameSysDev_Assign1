@@ -36,6 +36,7 @@ public class Piece : MonoBehaviour
 
     private void Update()
     {
+        if (board.tM.gameOver) return;
         if (freeze) return;
 
         board.Clear(this);
