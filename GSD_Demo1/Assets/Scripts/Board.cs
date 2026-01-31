@@ -62,6 +62,7 @@ public class Board : MonoBehaviour
             {
                 activePiece.freeze = true;
                 CheckBoard();
+                //Change spawn random to spawn in sequence
                 //SpawnPiece();
                 SpawnInSequence();
             }
@@ -83,6 +84,8 @@ public class Board : MonoBehaviour
 
     public void SpawnInSequence()
     {
+        //Set pieces to spawn long L and J over and over until 6 pieces have been placed. Exit to game over upon 6th piece placed.
+        //Yes I know there's probably a way cleaner way to do this with for loops I have a headache
         activePiece = Instantiate(prefabPiece);
         if (pieceCount == 0 || pieceCount == 2 || pieceCount == 4)
         {
@@ -93,6 +96,11 @@ public class Board : MonoBehaviour
         {
             activePiece.Initialize(this, Tetronimo.J);
             pieceCount++;
+        }
+        else
+        {
+            activePiece.Initialize(this, Tetronimo.longL);
+            tM.SetGameOver(true);
         }
 
             CheckEndGame();
@@ -132,6 +140,7 @@ public class Board : MonoBehaviour
         pieces.Clear();
 
         //SpawnPiece();
+        pieceCount = 0;
 
         SpawnInSequence();
     }
