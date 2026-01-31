@@ -128,6 +128,7 @@ public class Piece : MonoBehaviour
             new Vector2Int (1, -1)
         };
 
+        //Fix wall kicks for the long L
         if (data.tetronimo == Tetronimo.I || data.tetronimo == Tetronimo.longL)
         {
             wallKickOffsets.Add(2 * Vector2Int.left);
@@ -149,7 +150,8 @@ public class Piece : MonoBehaviour
     {
         Quaternion rotation = Quaternion.Euler(0, 0, 90 * direction);
 
-        bool isSpecial = data.tetronimo == Tetronimo.I || data.tetronimo == Tetronimo.O;
+        //fix rotation for the long L
+        bool isSpecial = data.tetronimo == Tetronimo.I || data.tetronimo == Tetronimo.O || data.tetronimo == Tetronimo.longL;
         for (int i = 0; i < cells.Length; i++)
         {
             Vector3 cellPosition = new Vector3(cells[i].x, cells[i].y);
