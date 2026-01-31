@@ -128,7 +128,7 @@ public class Piece : MonoBehaviour
             new Vector2Int (1, -1)
         };
 
-        if (data.tetronimo == Tetronimo.I)
+        if (data.tetronimo == Tetronimo.I || data.tetronimo == Tetronimo.longL)
         {
             wallKickOffsets.Add(2 * Vector2Int.left);
             wallKickOffsets.Add(2 * Vector2Int.right);
