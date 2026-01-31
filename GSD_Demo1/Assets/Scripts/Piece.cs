@@ -77,7 +77,8 @@ public class Piece : MonoBehaviour
         if (freeze)
         {
             board.CheckBoard();
-            board.SpawnPiece();
+            //board.SpawnPiece();
+            board.SpawnInSequence();
         }
     }
 

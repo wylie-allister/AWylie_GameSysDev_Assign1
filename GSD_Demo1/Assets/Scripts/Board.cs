@@ -24,18 +24,20 @@ public class Board : MonoBehaviour
 
     Dictionary<Vector3Int, Piece> pieces = new Dictionary<Vector3Int, Piece>();
 
+    int pieceCount = 0;
+
     int left
     {
         get { return -boardSize.x / 2; }
-    }    
+    }
     int right
     {
         get { return boardSize.x / 2; }
-    }    
+    }
     int top
     {
         get { return boardSize.y / 2; }
-    }    
+    }
     int bottom
     {
         get { return -boardSize.y / 2; }
@@ -44,10 +46,10 @@ public class Board : MonoBehaviour
     public void Update()
     {
         if (tM.gameOver) return;
-    
+
         dropTime += Time.deltaTime;
 
-        if (dropTime >= dropInterval )
+        if (dropTime >= dropInterval)
         {
             dropTime = 0.0f;
 
@@ -60,7 +62,8 @@ public class Board : MonoBehaviour
             {
                 activePiece.freeze = true;
                 CheckBoard();
-                SpawnPiece();
+                //SpawnPiece();
+                SpawnInSequence();
             }
         }
     }
@@ -70,9 +73,29 @@ public class Board : MonoBehaviour
         activePiece = Instantiate(prefabPiece);
         Tetronimo t = (Tetronimo)Random.Range(0, tetronimos.Length);
 
+
         activePiece.Initialize(this, t);
 
         CheckEndGame();
+
+        Set(activePiece);
+    }
+
+    public void SpawnInSequence()
+    {
+        activePiece = Instantiate(prefabPiece);
+        if (pieceCount == 0 || pieceCount == 2 || pieceCount == 4)
+        {
+            activePiece.Initialize(this, Tetronimo.longL);
+            pieceCount++;
+        }
+        else if (pieceCount == 1 || pieceCount == 3 ||  pieceCount == 5)
+        {
+            activePiece.Initialize(this, Tetronimo.J);
+            pieceCount++;
+        }
+
+            CheckEndGame();
 
         Set(activePiece);
     }
@@ -108,7 +131,9 @@ public class Board : MonoBehaviour
 
         pieces.Clear();
 
-        SpawnPiece();
+        //SpawnPiece();
+
+        SpawnInSequence();
     }
 
     void SetTile(Vector3Int cellPos, Piece piece)
