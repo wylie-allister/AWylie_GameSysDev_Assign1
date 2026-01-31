@@ -233,6 +233,14 @@ MonoBehaviour:
     - {x: 0, y: 0}
     - {x: 1, y: 0}
     tile: {fileID: 11400000, guid: 581c41385ba41c44ab99ba0944c248a7, type: 2}
+  - tetronimo: 7
+    cells:
+    - {x: 1, y: 1}
+    - {x: -2, y: 0}
+    - {x: -1, y: 0}
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    tile: {fileID: 11400000, guid: af08148166c7e9b4ba7e8d0b9195e2e3, type: 2}
   prefabPiece: {fileID: 8203073412927823620, guid: 947ac20615e2d354189c641e44c30a36, type: 3}
   tilemap: {fileID: 1787842002}
   boardSize: {x: 10, y: 20}
