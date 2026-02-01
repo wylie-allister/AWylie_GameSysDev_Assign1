@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 
 public class Board : MonoBehaviour
 {
-
+    //hi michael!
     public TetronimoData[] tetronimos;
 
     Piece activePiece;
@@ -85,7 +86,7 @@ public class Board : MonoBehaviour
     public void SpawnInSequence()
     {
         //Set pieces to spawn long L and J over and over until 6 pieces have been placed. Exit to game over upon 6th piece placed.
-        //Yes I know there's probably a way cleaner way to do this with for loops I have a headache
+        //Yes I know there's probably a way cleaner way to do this with for loops I'm sick and have a headache
         activePiece = Instantiate(prefabPiece);
         if (pieceCount == 0 || pieceCount == 2 || pieceCount == 4)
         {
@@ -99,8 +100,10 @@ public class Board : MonoBehaviour
         }
         else
         {
+            //this could be turned into a congrats or something but i don't want to do that right now
             activePiece.Initialize(this, Tetronimo.longL);
             tM.SetGameOver(true);
+            
         }
 
             CheckEndGame();
@@ -121,11 +124,18 @@ public class Board : MonoBehaviour
         if (!tM.gameOver)
         {
             ResetBoard();
+            
         }
     }
 
+    public void ResetGame()
+    {
+        //resets entire scene when play again is pressed (this is probably considered cheating for this assignment but it was the easiest solution I could find at the moment)
+        SceneManager.LoadScene("TetrisGame");
+    }
     public void ResetBoard()
     {
+        
         Piece[] foundPieces = FindObjectsByType<Piece>(FindObjectsSortMode.None);
 
         foreach (Piece piece in foundPieces)
@@ -135,12 +145,14 @@ public class Board : MonoBehaviour
 
         activePiece = null;
 
-        tilemap.ClearAllTiles();
+        //tilemap.ClearAllTiles();
 
         pieces.Clear();
 
-        //SpawnPiece();
         pieceCount = 0;
+
+        //SpawnPiece();
+        
 
         SpawnInSequence();
     }
@@ -212,6 +224,8 @@ public class Board : MonoBehaviour
                 piece.ReduceActiveCount();
                 SetTile(cellPosition, null);
             }
+            //clear row when in correct spot
+            tilemap.SetTile(cellPosition, null);
         }
     }
 
@@ -232,6 +246,7 @@ public class Board : MonoBehaviour
                     cellPosition.y -= 1;
                     SetTile(cellPosition, currentPiece);
                 }
+
             }
         }
     }
